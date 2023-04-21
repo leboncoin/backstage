@@ -37,24 +37,16 @@ const treeResponseFactory = DefaultReadTreeResponseFactory.create({
   config: new ConfigReader({}),
 });
 
-jest.mock('../scm', () => ({
-  Git: {
-    fromAuth: () => ({
-      clone: jest.fn(() => Promise.resolve({})),
-    }),
-  },
-}));
-
 const gerritProcessor = new GerritUrlReader(
   new GerritIntegration(
     readGerritIntegrationConfig(
       new ConfigReader({
         host: 'gerrit.com',
+        gitilesBaseUrl: 'https://gerrit.com/gitiles',
       }),
     ),
   ),
   { treeResponseFactory },
-  '/tmp',
 );
 
 const createReader = (config: JsonObject): UrlReaderPredicateTuple[] => {
@@ -216,19 +208,48 @@ describe('GerritUrlReader', () => {
     const branchAPIresponse = fs.readFileSync(
       path.resolve(__dirname, '__fixtures__/gerrit/branch-info-response.txt'),
     );
-    const treeUrl = 'https://gerrit.com/app/web/+/refs/heads/master/';
+    const treeUrl = 'https://gerrit.com/gitiles/app/web/+/refs/heads/master/';
     const etag = '52432507a70b677b5674b019c9a46b2e9f29d0a1';
-    const mkdocsContent = 'great content';
-    const mdContent = 'doc';
+    const repoArchiveBuffer = fs.readFileSync(
+      path.resolve(__dirname, '__fixtures__/gerrit/gerrit-master.tar.gz'),
+    );
+    const repoArchiveDocsBuffer = fs.readFileSync(
+      path.resolve(__dirname, '__fixtures__/gerrit/gerrit-master-docs.tar.gz'),
+    );
 
     beforeEach(() => {
-      mockFs({
-        '/tmp/': mockFs.directory(),
-        '/tmp/gerrit-clone-123abc/repo/mkdocs.yml': mkdocsContent,
-        '/tmp/gerrit-clone-123abc/repo/docs/first.md': mdContent,
-      });
-      const spy = jest.spyOn(fs, 'mkdtemp');
-      spy.mockImplementation(() => '/tmp/gerrit-clone-123abc');
+      worker.use(
+        rest.get(
+          new RegExp(
+            'https://gerrit.com/gitiles/app/web/\\+archive/refs/heads/master.tar.gz',
+          ),
+          (_, res, ctx) =>
+            res(
+              ctx.status(200),
+              ctx.set('Content-Type', 'application/x-gzip'),
+              ctx.set(
+                'content-disposition',
+                'attachment; filename=web-refs/heads/master.tar.gz',
+              ),
+              ctx.body(repoArchiveBuffer),
+            ),
+        ),
+        rest.get(
+          new RegExp(
+            'https://gerrit.com/gitiles/app/web/\\+archive/refs/heads/master/docs.tar.gz',
+          ),
+          (_, res, ctx) =>
+            res(
+              ctx.status(200),
+              ctx.set('Content-Type', 'application/x-gzip'),
+              ctx.set(
+                'content-disposition',
+                'attachment; filename=web-refs/heads/master-docs.tar.gz',
+              ),
+              ctx.body(repoArchiveDocsBuffer),
+            ),
+        ),
+      );
     });
 
     afterEach(() => {
@@ -251,10 +272,10 @@ describe('GerritUrlReader', () => {
       expect(files.length).toBe(2);
 
       const docsYaml = await files[0].content();
-      expect(docsYaml.toString()).toBe(mkdocsContent);
+      expect(docsYaml.toString()).toBe('# Test\n');
 
       const mdFile = await files[1].content();
-      expect(mdFile.toString()).toBe(mdContent);
+      expect(mdFile.toString()).toBe('site_name: Test\n');
     });
 
     it('throws NotModifiedError for matching etags.', async () => {
@@ -306,7 +327,7 @@ describe('GerritUrlReader', () => {
       expect(files.length).toBe(1);
 
       const mdFile = await files[0].content();
-      expect(mdFile.toString()).toBe(mdContent);
+      expect(mdFile.toString()).toBe('# Test\n');
     });
   });
 });

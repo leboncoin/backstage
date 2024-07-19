@@ -26,9 +26,10 @@ export {
   getGerritFileContentsApiUrl,
   getGerritProjectsApiUrl,
   getGerritRequestOptions,
-  parseGerritJsonResponse,
+  getGitilesAuthenticationUrl,
   parseGerritGitilesUrl,
   parseGitilesUrlRef,
+  parseGerritJsonResponse,
 } from './core';
 
 export type { GerritIntegrationConfig } from './config';

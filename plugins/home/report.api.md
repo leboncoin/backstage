@@ -198,7 +198,9 @@ export const SettingsModal: (props: {
   children: JSX.Element;
 }) => JSX_2.Element;
 
-// @public
+// Warning: (ae-missing-release-tag) "StarredEntitiesProps" is part of the package's API, but it is missing a release tag (@alpha, @beta, @public, or @internal)
+//
+// @public (undocumented)
 export type StarredEntitiesProps = {
   noStarredEntitiesMessage?: React_2.ReactNode | undefined;
   groupByKind?: boolean;
@@ -347,6 +349,7 @@ export type WelcomeTitleLanguageProps = {
 // src/deprecated.d.ts:42:1 - (ae-undocumented) Missing documentation for "RendererProps".
 // src/deprecated.d.ts:47:22 - (ae-undocumented) Missing documentation for "SettingsModal".
 // src/homePageComponents/HeaderWorldClock/HeaderWorldClock.d.ts:3:1 - (ae-undocumented) Missing documentation for "ClockConfig".
+// src/homePageComponents/StarredEntities/Content.d.ts:2:1 - (ae-undocumented) Missing documentation for "StarredEntitiesProps".
 // src/homePageComponents/Toolkit/Context.d.ts:3:1 - (ae-undocumented) Missing documentation for "Tool".
 // src/homePageComponents/VisitedByType/Content.d.ts:4:1 - (ae-undocumented) Missing documentation for "VisitedByTypeKind".
 // src/homePageComponents/VisitedByType/Content.d.ts:6:1 - (ae-undocumented) Missing documentation for "VisitedByTypeProps".

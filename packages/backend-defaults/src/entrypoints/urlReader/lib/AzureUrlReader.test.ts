@@ -302,6 +302,29 @@ describe('AzureUrlReader', () => {
     });
   });
 
+  describe('isSearchUrl', () => {
+    const processor = urlReaderFactory({
+      host: 'dev.azure.com',
+      credentials: [
+        {
+          personalAccessToken: 'my-pat',
+        },
+      ],
+    });
+
+    it('should detect wildcards in an url as search pattern', () => {
+      const url =
+        'https://dev.azure.com/org-name/project-name/_git/repo-name?path=%2F**%2Findex.*&version=GBmaster';
+      expect(processor.isSearchUrl(url)).toBe(true);
+    });
+
+    it('should detect simple urls', () => {
+      const url =
+        'https://dev.azure.com/org-name/project-name/_git/repo-name?path=catalog-info.yaml&version=GBmaster';
+      expect(processor.isSearchUrl(url)).toBe(false);
+    });
+  });
+
   describe('search', () => {
     const repoBuffer = fs.readFileSync(
       path.resolve(__dirname, '__fixtures__/mock-main.zip'),

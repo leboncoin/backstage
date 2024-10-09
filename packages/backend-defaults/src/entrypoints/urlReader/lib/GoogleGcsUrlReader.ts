@@ -117,6 +117,11 @@ export class GoogleGcsUrlReader implements UrlReaderService {
     throw new Error('GcsUrlReader does not implement readTree');
   }
 
+  isSearchUrl(url: string): boolean {
+    const { pathname } = new URL(url);
+    return !!pathname.match(/[*?]/);
+  }
+
   async search(url: string): Promise<UrlReaderServiceSearchResponse> {
     const { bucket, key: pattern } = parseURL(url);
 

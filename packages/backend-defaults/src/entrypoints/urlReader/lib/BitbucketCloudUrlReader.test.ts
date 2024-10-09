@@ -366,6 +366,19 @@ describe('BitbucketCloudUrlReader', () => {
     });
   });
 
+  describe('isSearchUrl', () => {
+    it('should detect wildcards in an url as search pattern', () => {
+      const url = 'https://bitbucket.org/backstage/mock/src/master/**/index.*';
+      expect(reader.isSearchUrl(url)).toBe(true);
+    });
+
+    it('should detect simple urls', () => {
+      const url =
+        'https://bitbucket.org/backstage/mock/src/master/catalog-info.yaml';
+      expect(reader.isSearchUrl(url)).toBe(false);
+    });
+  });
+
   describe('search hosted', () => {
     const repoBuffer = fs.readFileSync(
       path.resolve(

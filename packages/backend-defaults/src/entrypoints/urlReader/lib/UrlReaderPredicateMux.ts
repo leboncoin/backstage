@@ -75,6 +75,18 @@ export class UrlReaderPredicateMux implements UrlReaderService {
     throw new NotAllowedError(notAllowedMessage(url));
   }
 
+  isSearchUrl(url: string): boolean {
+    const parsed = new URL(url);
+
+    for (const { predicate, reader } of this.readers) {
+      if (predicate(parsed)) {
+        return reader.isSearchUrl(url);
+      }
+    }
+
+    throw new NotAllowedError(notAllowedMessage(url));
+  }
+
   async search(
     url: string,
     options?: UrlReaderServiceSearchOptions,

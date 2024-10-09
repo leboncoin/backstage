@@ -23,7 +23,7 @@ import { createFetchPlainAction } from './plain';
 import { fetchContents } from '@backstage/plugin-scaffolder-node';
 import { createMockActionContext } from '@backstage/plugin-scaffolder-node-test-utils';
 import { examples } from './plain.examples';
-import { UrlReaderService } from '@backstage/backend-plugin-api';
+import { mockServices } from '@backstage/backend-test-utils';
 
 jest.mock('@backstage/plugin-scaffolder-node', () => ({
   ...jest.requireActual('@backstage/plugin-scaffolder-node'),
@@ -38,11 +38,7 @@ describe('fetch:plain examples', () => {
       },
     }),
   );
-  const reader: UrlReaderService = {
-    readUrl: jest.fn(),
-    readTree: jest.fn(),
-    search: jest.fn(),
-  };
+  const reader = mockServices.urlReader.mock();
 
   beforeEach(() => {
     jest.resetAllMocks();

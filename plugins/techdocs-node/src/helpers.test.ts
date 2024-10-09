@@ -317,6 +317,10 @@ describe('getDocFilesFromRepository', () => {
         };
       }
 
+      isSearchUrl(): boolean {
+        return false;
+      }
+
       async search(): Promise<UrlReaderServiceSearchResponse> {
         return {
           etag: '',

@@ -169,6 +169,10 @@ export class FetchUrlReader implements UrlReaderService {
     throw new Error('FetchUrlReader does not implement readTree');
   }
 
+  isSearchUrl(): boolean {
+    return false;
+  }
+
   async search(): Promise<UrlReaderServiceSearchResponse> {
     throw new Error('FetchUrlReader does not implement search');
   }

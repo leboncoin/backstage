@@ -544,6 +544,19 @@ describe('GitlabUrlReader', () => {
     });
   });
 
+  describe('isSearchUrl', () => {
+    it('should detect wildcards in an url as search pattern', () => {
+      const url = 'https://gitlab.com/backstage/mock/tree/main/**/index.*';
+      expect(gitlabProcessor.isSearchUrl(url)).toBe(true);
+    });
+
+    it('should detect simple urls', () => {
+      const url =
+        'https://gitlab.com/backstage/mock/tree/main/catalog-info.yaml';
+      expect(gitlabProcessor.isSearchUrl(url)).toBe(false);
+    });
+  });
+
   describe('search', () => {
     const archiveBuffer = fs.readFileSync(
       path.resolve(__dirname, '__fixtures__/gitlab-archive.tar.gz'),

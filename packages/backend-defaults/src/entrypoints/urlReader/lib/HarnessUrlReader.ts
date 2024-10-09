@@ -40,6 +40,7 @@ import {
   NotModifiedError,
 } from '@backstage/errors';
 import { Readable } from 'stream';
+import parseGitUrl from 'git-url-parse';
 
 /**
  * Implements a {@link @backstage/backend-plugin-api#UrlReaderService} for the Harness code v1 api.
@@ -152,6 +153,11 @@ export class HarnessUrlReader implements UrlReaderService {
       etag: lastCommitHash,
       filter: options?.filter,
     });
+  }
+
+  isSearchUrl(url: string): boolean {
+    const { filepath } = parseGitUrl(url);
+    return !!filepath.match(/[*?]/);
   }
 
   search(): Promise<UrlReaderServiceSearchResponse> {

@@ -38,6 +38,7 @@ import { Readable } from 'stream';
 import { NotFoundError, NotModifiedError } from '@backstage/errors';
 import { ReadTreeResponseFactory, ReaderFactory } from './types';
 import { ReadUrlResponseFactory } from './ReadUrlResponseFactory';
+import parseGitUrl from 'git-url-parse';
 
 /**
  * Implements a {@link @backstage/backend-plugin-api#UrlReaderService} for Azure repos.
@@ -177,6 +178,11 @@ export class AzureUrlReader implements UrlReaderService {
       filter,
       subpath,
     });
+  }
+
+  isSearchUrl(url: string): boolean {
+    const { filepath } = parseGitUrl(url);
+    return !!filepath.match(/[*?]/);
   }
 
   async search(

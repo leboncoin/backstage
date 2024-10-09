@@ -165,6 +165,10 @@ export class GerritUrlReader implements UrlReaderService {
     return this.readTreeFromGitiles(url, branchInfo.revision, options);
   }
 
+  isSearchUrl(): boolean {
+    return false;
+  }
+
   async search(): Promise<UrlReaderServiceSearchResponse> {
     throw new Error('GerritReader does not implement search');
   }

@@ -166,6 +166,11 @@ export class BitbucketCloudUrlReader implements UrlReaderService {
     });
   }
 
+  isSearchUrl(url: string): boolean {
+    const { filepath } = parseGitUrl(url);
+    return !!filepath.match(/[*?]/);
+  }
+
   async search(
     url: string,
     options?: UrlReaderServiceSearchOptions,

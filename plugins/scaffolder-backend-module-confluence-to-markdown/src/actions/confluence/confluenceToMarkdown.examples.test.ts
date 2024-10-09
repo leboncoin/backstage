@@ -70,6 +70,7 @@ describe('confluence:transform:markdown examples', () => {
       readTree: jest.fn().mockResolvedValue({
         dir: jest.fn(),
       }),
+      isSearchUrl: jest.fn(),
       search: jest.fn(),
     };
     mockContext = createMockActionContext({

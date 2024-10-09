@@ -42,6 +42,7 @@ describe('fetchContents helper', () => {
   const reader: UrlReaderService = {
     readUrl,
     readTree,
+    isSearchUrl: jest.fn(),
     search: jest.fn(),
   };
 

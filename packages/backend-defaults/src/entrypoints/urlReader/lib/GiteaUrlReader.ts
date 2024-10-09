@@ -156,6 +156,10 @@ export class GiteaUrlReader implements UrlReaderService {
     });
   }
 
+  isSearchUrl(): boolean {
+    return false;
+  }
+
   search(): Promise<UrlReaderServiceSearchResponse> {
     throw new Error('GiteaUrlReader search not implemented.');
   }

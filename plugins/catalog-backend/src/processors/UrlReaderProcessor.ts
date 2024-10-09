@@ -18,7 +18,6 @@ import { Entity } from '@backstage/catalog-model';
 import { assertError } from '@backstage/errors';
 import limiterFactory, { Limit } from 'p-limit';
 import { LocationSpec } from '@backstage/plugin-catalog-common';
-import parseGitUrl from 'git-url-parse';
 import {
   CatalogProcessor,
   CatalogProcessorCache,
@@ -128,11 +127,7 @@ export class UrlReaderProcessor implements CatalogProcessor {
     location: string,
     etag?: string,
   ): Promise<{ response: { data: Buffer; url: string }[]; etag?: string }> {
-    // Does it contain globs? I.e. does it contain asterisks or question marks
-    // (no curly braces for now)
-
-    const { filepath } = parseGitUrl(location);
-    if (filepath?.match(/[*?]/)) {
+    if (this.options.reader.isSearchUrl(location)) {
       const response = await this.options.reader.search(location, { etag });
       const output = response.files.map(async file => ({
         url: file.url,

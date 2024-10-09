@@ -46,6 +46,7 @@ describe('CodeOwnersProcessor', () => {
       const reader = {
         read: jest.fn(),
         readTree: jest.fn(),
+        isSearchUrl: jest.fn(),
         search: jest.fn(),
         readUrl: jest.fn().mockResolvedValue({
           buffer: jest.fn().mockResolvedValue(mockCodeOwnersText()),

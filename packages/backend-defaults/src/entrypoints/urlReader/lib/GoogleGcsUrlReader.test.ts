@@ -122,6 +122,20 @@ describe('GcsUrlReader', () => {
     });
   });
 
+  describe('isSearchUrl', () => {
+    const { reader } = createReader({ integrations: { googleGcs: {} } })[0];
+
+    it('should detect wildcards in an url as search pattern', () => {
+      const url = 'https://storage.cloud.google.com/bucket/path/some-prefix-*';
+      expect(reader.isSearchUrl(url)).toBe(true);
+    });
+
+    it('should detect simple urls', () => {
+      const url = 'https://storage.cloud.google.com/bucket/catalog-info.yaml';
+      expect(reader.isSearchUrl(url)).toBe(false);
+    });
+  });
+
   describe('search', () => {
     const { reader } = createReader({ integrations: { googleGcs: {} } })[0];
 

@@ -648,6 +648,7 @@ export interface ServiceRefOptions<
 
 // @public
 export interface UrlReaderService {
+  isSearchUrl(url: string): boolean;
   readTree(
     url: string,
     options?: UrlReaderServiceReadTreeOptions,

@@ -33,11 +33,13 @@ import { ScmIntegrations } from '@backstage/integration';
 import { resolve as resolvePath } from 'path';
 import { createFetchRailsAction } from './index';
 import { fetchContents } from '@backstage/plugin-scaffolder-node';
-import { createMockDirectory } from '@backstage/backend-test-utils';
+import {
+  createMockDirectory,
+  mockServices,
+} from '@backstage/backend-test-utils';
 import { createMockActionContext } from '@backstage/plugin-scaffolder-node-test-utils';
 import { examples } from './index.examples';
 import yaml from 'yaml';
-import { UrlReaderService } from '@backstage/backend-plugin-api';
 
 describe('fetch:rails', () => {
   const mockDir = createMockDirectory();
@@ -67,11 +69,7 @@ describe('fetch:rails', () => {
     workspacePath: mockDir.path,
   });
 
-  const mockReader: UrlReaderService = {
-    readUrl: jest.fn(),
-    readTree: jest.fn(),
-    search: jest.fn(),
-  };
+  const mockReader = mockServices.urlReader.mock();
   const containerRunner: ContainerRunner = {
     runContainer: jest.fn(),
   };

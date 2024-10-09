@@ -17,7 +17,6 @@ import { TECHDOCS_ANNOTATION } from '@backstage/plugin-techdocs-common';
 import { ConfigReader } from '@backstage/config';
 import { DirectoryPreparer } from './dir';
 import { mockServices } from '@backstage/backend-test-utils';
-import { UrlReaderService } from '@backstage/backend-plugin-api';
 
 function normalizePath(path: string) {
   return path
@@ -46,11 +45,7 @@ const createMockEntity = (annotations: {}) => {
 };
 
 const mockConfig = new ConfigReader({});
-const mockUrlReader: jest.Mocked<UrlReaderService> = {
-  readUrl: jest.fn(),
-  readTree: jest.fn(),
-  search: jest.fn(),
-};
+const mockUrlReader = mockServices.urlReader.mock();
 
 describe('directory preparer', () => {
   it('should merge managed-by-location and techdocs-ref when techdocs-ref is relative', async () => {

@@ -357,6 +357,10 @@ export class AwsS3UrlReader implements UrlReaderService {
     }
   }
 
+  isSearchUrl(): boolean {
+    return false;
+  }
+
   async search(): Promise<UrlReaderServiceSearchResponse> {
     throw new Error('AwsS3Reader does not implement search');
   }

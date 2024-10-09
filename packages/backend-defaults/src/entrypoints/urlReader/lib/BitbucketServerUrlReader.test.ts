@@ -198,6 +198,20 @@ describe('BitbucketServerUrlReader', () => {
     });
   });
 
+  describe('isSearchUrl', () => {
+    it('should detect wildcards in an url as search pattern', () => {
+      const url =
+        'https://bitbucket.mycompany.net/projects/backstage/repos/mock/browse/**/index.*?at=master';
+      expect(reader.isSearchUrl(url)).toBe(true);
+    });
+
+    it('should detect simple urls', () => {
+      const url =
+        'https://bitbucket.mycompany.net/projects/backstage/repos/mock/browse/catalog-info.yaml?at=master';
+      expect(reader.isSearchUrl(url)).toBe(false);
+    });
+  });
+
   describe('search private', () => {
     const repoBuffer = fs.readFileSync(
       path.resolve(__dirname, '__fixtures__/bitbucket-server-repo.tar.gz'),

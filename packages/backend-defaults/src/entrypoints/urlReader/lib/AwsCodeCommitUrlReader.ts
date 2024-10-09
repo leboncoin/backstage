@@ -380,6 +380,10 @@ export class AwsCodeCommitUrlReader implements UrlReaderService {
     }
   }
 
+  isSearchUrl(): boolean {
+    return false;
+  }
+
   async search(): Promise<UrlReaderServiceSearchResponse> {
     throw new Error('AwsCodeCommitReader does not implement search');
   }

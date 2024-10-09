@@ -47,15 +47,9 @@ describe('OpenApiRefProcessor', () => {
         spec: { definition: '<openapi-definition>', ...spec },
       };
       const config = new ConfigReader({});
-      const reader = {
-        read: jest.fn(),
-        readUrl: jest.fn(),
-        readTree: jest.fn(),
-        search: jest.fn(),
-      };
       const processor = OpenApiRefProcessor.fromConfig(config, {
         logger: loggerToWinstonLogger(mockServices.logger.mock()),
-        reader,
+        reader: mockServices.urlReader.mock(),
       });
 
       return { entity, processor };

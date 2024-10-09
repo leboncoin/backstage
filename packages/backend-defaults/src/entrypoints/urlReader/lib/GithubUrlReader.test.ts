@@ -636,6 +636,19 @@ describe('GithubUrlReader', () => {
    * search
    */
 
+  describe('isSearchUrl', () => {
+    it('should detect wildcards in an url as search pattern', () => {
+      const url = 'https://github.com/backstage/mock/tree/main/**/*';
+      expect(githubProcessor.isSearchUrl(url)).toBe(true);
+    });
+
+    it('should detect simple urls', () => {
+      const url =
+        'https://github.com/backstage/mock/tree/main/catalog-info.yaml';
+      expect(githubProcessor.isSearchUrl(url)).toBe(false);
+    });
+  });
+
   describe('search', () => {
     const repoBuffer = fs.readFileSync(
       path.resolve(__dirname, '__fixtures__/backstage-mock-etag123.tar.gz'),

@@ -411,6 +411,7 @@ export namespace mockServices {
     export const mock = simpleMock(coreServices.urlReader, () => ({
       readTree: jest.fn(),
       readUrl: jest.fn(),
+      isSearchUrl: jest.fn(),
       search: jest.fn(),
     }));
   }

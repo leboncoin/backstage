@@ -22,12 +22,14 @@ describe('UrlReaderPredicateMux', () => {
       read: jest.fn(),
       readUrl: jest.fn(),
       readTree: jest.fn(),
+      isSearchUrl: jest.fn(),
       search: jest.fn(),
     };
     const barReader = {
       read: jest.fn(),
       readUrl: jest.fn(),
       readTree: jest.fn(),
+      isSearchUrl: jest.fn(),
       search: jest.fn(),
     };
 
@@ -47,8 +49,10 @@ describe('UrlReaderPredicateMux', () => {
     expect(fooReader.readUrl).toHaveBeenCalledWith('http://foo/2', undefined);
     await mux.readTree('http://foo/3');
     expect(fooReader.readTree).toHaveBeenCalledWith('http://foo/3', undefined);
-    await mux.search('http://foo/4');
-    expect(fooReader.search).toHaveBeenCalledWith('http://foo/4', undefined);
+    mux.isSearchUrl('http://foo/4');
+    expect(fooReader.isSearchUrl).toHaveBeenCalledWith('http://foo/4');
+    await mux.search('http://foo/5');
+    expect(fooReader.search).toHaveBeenCalledWith('http://foo/5', undefined);
 
     await mux.readUrl('http://bar/1');
     expect(barReader.readUrl).toHaveBeenCalledWith('http://bar/1', undefined);
@@ -56,8 +60,10 @@ describe('UrlReaderPredicateMux', () => {
     expect(barReader.readUrl).toHaveBeenCalledWith('http://bar/2', undefined);
     await mux.readTree('http://bar/3');
     expect(barReader.readTree).toHaveBeenCalledWith('http://bar/3', undefined);
-    await mux.search('http://bar/4');
-    expect(barReader.search).toHaveBeenCalledWith('http://bar/4', undefined);
+    mux.isSearchUrl('http://bar/4');
+    expect(barReader.isSearchUrl).toHaveBeenCalledWith('http://bar/4');
+    await mux.search('http://bar/5');
+    expect(barReader.search).toHaveBeenCalledWith('http://bar/5', undefined);
   });
 
   it('throws an error if no predicate matches', async () => {
@@ -72,6 +78,7 @@ describe('UrlReaderPredicateMux', () => {
       reader: {
         readUrl: jest.fn(),
         readTree: jest.fn(),
+        isSearchUrl: jest.fn(),
         search: jest.fn(),
       },
     });

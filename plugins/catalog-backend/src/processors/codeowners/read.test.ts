@@ -34,6 +34,7 @@ describe('readCodeOwners', () => {
         buffer: jest.fn().mockResolvedValue(Buffer.from(mockCodeowners)),
       }),
       readTree: jest.fn(),
+      isSearchUrl: jest.fn(),
       search: jest.fn(),
     };
 
@@ -50,6 +51,7 @@ describe('readCodeOwners', () => {
         buffer: jest.fn().mockRejectedValue(undefined),
       }),
       readTree: jest.fn(),
+      isSearchUrl: jest.fn(),
       search: jest.fn(),
     };
 
@@ -68,6 +70,7 @@ describe('readCodeOwners', () => {
           .mockResolvedValue(mockCodeowners),
       }),
       readTree: jest.fn(),
+      isSearchUrl: jest.fn(),
       search: jest.fn(),
     };
 
@@ -102,6 +105,7 @@ describe('findCodeOwnerByLocation', () => {
         buffer: jest.fn().mockResolvedValue(codeOwnersContents),
       }),
       readTree: jest.fn(),
+      isSearchUrl: jest.fn(),
       search: jest.fn(),
     };
 

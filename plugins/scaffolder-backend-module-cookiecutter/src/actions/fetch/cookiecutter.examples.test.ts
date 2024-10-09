@@ -18,14 +18,16 @@ import { ContainerRunner } from '@backstage/backend-common';
 import { ConfigReader } from '@backstage/config';
 import { JsonObject } from '@backstage/types';
 import { ScmIntegrations } from '@backstage/integration';
-import { createMockDirectory } from '@backstage/backend-test-utils';
+import {
+  createMockDirectory,
+  mockServices,
+} from '@backstage/backend-test-utils';
 import { createFetchCookiecutterAction } from './cookiecutter';
 import { join } from 'path';
 import type { ActionContext } from '@backstage/plugin-scaffolder-node';
 import { createMockActionContext } from '@backstage/plugin-scaffolder-node-test-utils';
 import { examples } from './cookiecutter.examples';
 import yaml from 'yaml';
-import { UrlReaderService } from '@backstage/backend-plugin-api';
 
 const executeShellCommand = jest.fn();
 const commandExists = jest.fn();
@@ -72,11 +74,7 @@ describe('fetch:cookiecutter', () => {
     runContainer: jest.fn(),
   };
 
-  const mockReader: UrlReaderService = {
-    readUrl: jest.fn(),
-    readTree: jest.fn(),
-    search: jest.fn(),
-  };
+  const mockReader = mockServices.urlReader.mock();
 
   const action = createFetchCookiecutterAction({
     integrations,

@@ -41,6 +41,12 @@ export interface UrlReaderService {
   ): Promise<UrlReaderServiceReadTreeResponse>;
 
   /**
+   * Returns true if a given URL contains a search pattern such as wildcards
+   * in the path.
+   */
+  isSearchUrl(url: string): boolean;
+
+  /**
    * Searches for a file in a tree using a glob pattern.
    */
   search(

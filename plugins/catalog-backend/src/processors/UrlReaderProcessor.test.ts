@@ -196,6 +196,7 @@ describe('UrlReaderProcessor', () => {
     const reader: jest.Mocked<UrlReaderService> = {
       readUrl: jest.fn(),
       readTree: jest.fn(),
+      isSearchUrl: jest.fn().mockImplementation(() => true),
       search: jest.fn().mockImplementation(async () => []),
     };
 
